@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
-// import CheckBox from '@react-native-community/checkbox';
+import CheckBox from 'react-native-check-box'
 import React, { useState,useEffect } from "react";
 
 import {auth} from "../../firebase";
@@ -62,7 +62,16 @@ const SignUp = (props) => {
         <View style={styles.checkboxContainer}>
 
 
-
+        <CheckBox
+    style={{flex: 1, padding: 10}}
+    onClick={()=>{
+      this.setState({
+          isChecked:!this.state.isChecked
+      })
+    }}
+    isChecked={this.state.isChecked}
+    leftText={"CheckBox"}
+/>
           <Text style={styles.label}>
          
             I agree to the 

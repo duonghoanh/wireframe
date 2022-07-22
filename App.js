@@ -10,7 +10,7 @@ import AdviceScreen from "./src/navigations/AdviceScreen.js";
 import ProfileScreen from "./src/navigations/ProfileScreen.js";
 import HomeScreen from "./src/navigations/HomeScreen.js";
 import ChartScreen from "./src/navigations/ChartScreen.js";
-
+import ChartAPI from "./src/api/ChartAPI.js";
 export default function App() {
 const Stack = createNativeStackNavigator();
   return (
@@ -28,7 +28,7 @@ const Stack = createNativeStackNavigator();
     options={{
       headerShown: false,
 }} /> */}
- <Stack.Screen name="ChartScreen" component={ChartScreen}
+ <Stack.Screen name="ChartScreen" component={SignUp}
     options={{
       headerShown: false,
     }}

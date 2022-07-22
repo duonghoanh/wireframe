@@ -49,7 +49,7 @@ const AdviceScreen = () => {
                     {item.ticker}
                   </Text>
                   <Text style={styles.colunmRightLineTextItem}>
-                    Giá hiện tại: <Text>{item.price}</Text>{" "}
+                    Giá hiện tại:     <Text>{item.price}</Text>
                   </Text>
                 </View>
                 <View style={styles.lineTextItem}>
