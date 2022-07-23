@@ -7,37 +7,44 @@ import {
   Button,
   TouchableOpacity,
   SafeAreaView,
-  CheckBox
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+// import { NavigationContainer } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
-import CheckBox from 'react-native-check-box'
-import React, { useState,useEffect } from "react";
+import Checkbox from "expo-checkbox";
+import React, { useState, useEffect } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { auth } from "../../firebase";
 
-import {auth} from "../../firebase";
-
-
-const SignUp = (props) => {
+export default SignUp = (props) => {
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const navigation = useNavigation(); // <-- Add this line
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-// const validateEmail = (mail) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isChecked, setChecked] = useState(false);
+  const [hidePass, setHidePass] = useState(true);
+
+  // const validateEmail = (mail) => {
   //   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   //     return re.test(mail);
   // }
 
-  const handleSignUp = () => { 
+  const handleSignUp = () => {
     auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(userCredentials => {
-      const user = userCredentials.user;
-      console.log('Sign In:', user.email);
-    })
-    .catch(error => alert(error.message))
-  }
-  const [isSelected, setSelection] = useState(false);
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Sign In:", user.email);
+      })
+      .catch((error) => alert(error.message));
+  };
 
-
+  const conditionCheckBox = () => {
+    if (isChecked === true) {
+      handleSignUp();
+    } else {
+      alert("Bạn chưa đồng ý với điều khoản của chúng tôi");
+    }
+  };
   return (
     <View style={styles.viewContainer}>
       <Text style={styles.signinText}>Sign Up</Text>
@@ -47,46 +54,56 @@ const SignUp = (props) => {
         <TextInput
           type="email"
           style={styles.inputItem}
-          placeholder="Example@email.com"
-          onChangeText={text => setEmail(text)}
+          placeholder="example@email.com"
+          onChangeText={(text) => setEmail(text)}
           value={email}
-    
         />
         <Text style={styles.inputLable}>Password</Text>
-        <TextInput 
-        secureTextEntry={true} 
-        style={styles.inputItem}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-         />
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 8 }}>
+            <TextInput
+              secureTextEntry={hidePass ? true : false}
+              style={styles.inputItem}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <MaterialCommunityIcons
+              name={hidePass ? "eye-off" : "eye"}
+              size={30}
+              color="#d1d6db"
+              onPress={() => setHidePass(!hidePass)}
+            />
+          </View>
+        </View>
         <View style={styles.checkboxContainer}>
+          <Checkbox
+            style={styles.checkbox}
+            value={isChecked}
+            onValueChange={setChecked}
+            color={isChecked ? "#F85F6A" : undefined}
+          />
 
-
-        <CheckBox
-    style={{flex: 1, padding: 10}}
-    onClick={()=>{
-      this.setState({
-          isChecked:!this.state.isChecked
-      })
-    }}
-    isChecked={this.state.isChecked}
-    leftText={"CheckBox"}
-/>
           <Text style={styles.label}>
-         
-            I agree to the 
-            <Text style={{ color: "red", fontWeight: "bold" }}> Terms of Services </Text>
+            I agree to the
+            <Text style={{ color: "red", fontWeight: "bold" }}>
+              {" "}
+              Terms of Services{" "}
+            </Text>
             and
-            <Text style={{ color: "red", fontWeight: "bold" }}> Privacy Policy </Text>
+            <Text style={{ color: "red", fontWeight: "bold" }}>
+              {" "}
+              Privacy Policy{" "}
+            </Text>
           </Text>
         </View>
         <View style={styles.viewButtonApp}>
           <TouchableOpacity
             style={styles.buttonSignin}
-            onPress={handleSignUp}
-           
+            onPress={conditionCheckBox}
           >
-            <Text style={styles.textSigninButton} >Sign Up</Text>
+            <Text style={styles.textSigninButton}>Sign Up</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -96,24 +113,33 @@ const SignUp = (props) => {
           flexDirection: "row",
           flexWrap: "wrap",
           justifyContent: "center",
- 
         }}
       >
-        <Text style={{ fontWeight: "100", marginTop: 20,fontWeight:"bold",color:"#989EB1" }}>
+        <Text
+          style={{
+            fontWeight: "100",
+            marginTop: 20,
+            fontWeight: "bold",
+            color: "#989EB1",
+          }}
+        >
           Have an Account?
         </Text>
-          <Text  
-          style={{ fontWeight: "bold", marginTop: 20, marginLeft: 5, color:'red' }}
-          onPress={() => navigation.navigate('SignIn')}  
-          >
+        <Text
+          style={{
+            fontWeight: "bold",
+            marginTop: 20,
+            marginLeft: 5,
+            color: "red",
+          }}
+          onPress={() => navigation.navigate("SignIn")}
+        >
           Sign in
-          </Text>
+        </Text>
       </View>
     </View>
   );
 };
-
-export default SignUp;
 
 const styles = StyleSheet.create({
   viewContainer: {
@@ -176,13 +202,13 @@ const styles = StyleSheet.create({
   buttonSignin: {
     alignItems: "center",
     backgroundColor: "#F85F6A",
-    height:50,
-     width: "100%",
-    justifyContent:"center",
-    borderRadius:10,
-   },
-   textSigninButton:{
+    height: 50,
+    width: "100%",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
+  textSigninButton: {
     fontWeight: "bold",
-    color:"#fff",
-  }
+    color: "#fff",
+  },
 });
