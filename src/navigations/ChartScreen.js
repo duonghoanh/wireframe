@@ -47,10 +47,12 @@ const ChartScreen = () => {
             placeholder={"Mã chứng khoáng..."}
             keyboardType="text"
           />
-          <TouchableOpacity style={styles.button}   onPress={() => getDataCompany} >
-  
-  <Text>Tìm</Text>
-</TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => getDataCompany}
+          >
+            <Text>Tìm</Text>
+          </TouchableOpacity>
         </View>
         <ScrollView>
           {isLoading ? (
@@ -132,25 +134,23 @@ const ChartScreen = () => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              
+
               flexDirection: "row",
               flexWrap: "wrap",
             }}
           >
-     {
-      data?.suggestions?.map((item, index) => {
-        return (
-          <View style={styles.item}>
-          <Text style={styles.lineTextItem}>
+            {data?.suggestions?.map((item, index) => {
+              return (
+                <View style={styles.item}>
+                  <Text style={styles.lineTextItem}>
                     VNDirect lúc: {item.source}
                   </Text>
                   <Text style={styles.lineTextItem}>
                     Giá mục tiêu: {item.targetPrice}
                   </Text>
-            </View>
-        )
-     }
-     )}
+                </View>
+              );
+            })}
           </View>
         </ScrollView>
       </View>
@@ -233,6 +233,6 @@ const styles = StyleSheet.create({
   },
   lineTextItem: {
     padding: 5,
-    flex:1,
+    flex: 1,
   },
 });
