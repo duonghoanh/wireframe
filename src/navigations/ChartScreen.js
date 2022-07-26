@@ -12,18 +12,15 @@ import {
 import React, { useState, useEffect } from "react";
 
 const ChartScreen = () => {
-  // const [valueSearch, onChangeValueSearch] = useState('');
+  const [valueSearch, onChangeValueSearch] = useState('KLC');
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  var url = "https://stockviewer-331612.as.r.appspot.com/api/v2/details/";
 
-  onChangeValueSearch = (text) => {
-    getDataCompany(text);
-  };
+
 
   const getDataCompany = async (text) => {
     try {
-      const response = await fetch(`${url}${text}`);
+      const response = await fetch(`https://stockviewer-331612.as.r.appspot.com/api/v2/details/${valueSearch}`);
       const json = await response.json();
       setData(json.data);
     } catch (error) {
@@ -33,8 +30,10 @@ const ChartScreen = () => {
     }
   };
   useEffect(() => {
-    getDataCompany();
-  }, []);
+
+
+    getDataCompany(valueSearch);
+  }, [valueSearch]);
 
   return (
     <View style={styles.root}>
@@ -42,14 +41,14 @@ const ChartScreen = () => {
         <View style={{ flexDirection: "row", width: "100%" }}>
           <TextInput
             style={styles.input}
-            onChangeText={onChangeValueSearch}
-            // value={valueSearch}
+            value={valueSearch}
+            onChangeText={(text) => onChangeValueSearch(text)}
             placeholder={"Mã chứng khoáng..."}
             keyboardType="text"
           />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => getDataCompany}
+            onPress={() => getDataCompany(valueSearch)}
           >
             <Text>Tìm</Text>
           </TouchableOpacity>

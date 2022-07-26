@@ -17,7 +17,7 @@ export default function App() {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="SignIn"
           component={SignIn}
           options={{
@@ -30,10 +30,10 @@ export default function App() {
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
         <Stack.Screen
           name="SignUp"
-          component={SignUp}
+          component={ChartScreen}
           options={{
             headerShown: false,
           }}
